@@ -223,7 +223,7 @@ class Maker:
         # Prepare
         import imp
         from vispy.util.dataio import imsave
-        from vispy.gloo import _screenshot
+        from vispy.gloo.util import _screenshot
         examples_dir = os.path.join(ROOT_DIR, 'examples')
         gallery_dir = os.path.join(IMAGES_DIR, 'gallery')
 
