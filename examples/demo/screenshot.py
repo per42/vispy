@@ -27,7 +27,8 @@ class Screenshot(object):
     
     def save(self, event):
         self.canvas.on_paint(event)
-        image = vispy.gloo.util._screenshot((0, 0, c.size[0], c.size[1]))
+        image = vispy.gloo.util._screenshot(
+            (0, 0, self.canvas.size[0], self.canvas.size[1]))
         vispy.util.dataio.imsave(self.image_path, image)
         self.canvas.events.paint.disconnect(self.save)
 
@@ -36,6 +37,6 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     import graph
     c = graph.Canvas()
-    screenshot = Screenshot(c, image_path="screenshot.png")
+    Screenshot(c, image_path="screenshot.png")
     c.show()
     c.app.run()
