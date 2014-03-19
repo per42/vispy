@@ -98,6 +98,7 @@ class Canvas(app.Canvas):
         gl.glViewport(0, 0, width, height)
 
     def on_paint(self, event):
+        print "Graph paint"
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.program_e.draw(gl.GL_LINES, self.index)
         self.program.draw(gl.GL_POINTS)
