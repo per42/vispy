@@ -169,18 +169,22 @@ def create_colormap2d_4dirs(size=512):
     rgb[:hs, :hs, 0] = 1.
     rgb[:hs, :hs, 1] = 1. - v + u / 2.
     rgb[:hs, :hs, 2] = 1. - np.maximum(u, v)
+    rgb[:hs, :hs][np.where(u ** 2 + v ** 2 > 1.)] = 0.
     u = u[:, ::-1]
     rgb[:hs, hs:, 0] = 1. - u + v
     rgb[:hs, hs:, 1] = 1. - np.maximum(u, v)
     rgb[:hs, hs:, 2] = 1. - v + u
+    rgb[:hs, hs:][np.where(u ** 2 + v ** 2 > 1.)] = 0.
     v = v[::-1, :]
     rgb[hs:, hs:, 0] = 1. - np.maximum(u, v)
     rgb[hs:, hs:, 1] = 1. - u + v
     rgb[hs:, hs:, 2] = 1. - v + u
+    rgb[hs:, hs:][np.where(u ** 2 + v ** 2 > 1.)] = 0.
     u = u[:, ::-1]
     rgb[hs:, :hs, 0] = 1. - v + u / 2.
     rgb[hs:, :hs, 1] = 1.
     rgb[hs:, :hs, 2] = 1. - np.maximum(u, v)
+    rgb[hs:, :hs][np.where(u ** 2 + v ** 2 > 1.)] = 0.
     rgb = np.minimum(1., rgb)
     return rgb
 
