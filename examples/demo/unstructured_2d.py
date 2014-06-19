@@ -31,10 +31,11 @@ class Unstructured2d(app.Canvas):
                  x=None, y=None, u=None, v=None,
                  colormap=None, data_lim=None,
                  dir_x_right=True, dir_y_top=True,
+                 normalize_uv=True,
                  **kwargs):
         app.Canvas.__init__(self, **kwargs)
         self.create_shader(colormap)
-        self.create_mesh(x, y, u, v)
+        self.create_mesh(x, y, u, v, normalize_uv=normalize_uv)
         self.program.bind(self.vbo)
         if data_lim is not None:
             self._data_lim = data_lim
@@ -93,14 +94,15 @@ class Unstructured2d(app.Canvas):
         self.program['model'] = self.model
         self.program['view'] = self.view
 
-    def create_mesh(self, x, y, u, v):
+    def create_mesh(self, x, y, u, v, normalize_uv=True):
         tri = scipy.spatial.Delaunay(np.column_stack([x, y]))
         edges = tri.simplices.astype(np.uint32)
         uv = []
         for c in [u, v]:
             if c is not None:
                 c = c.astype('f4')
-                c = .5 + .5 * c / np.abs(c).max()
+                if normalize_uv:
+                    c = .5 + .5 * c / np.abs(c).max()
                 uv.append(c)
         data = np.column_stack(
             [
